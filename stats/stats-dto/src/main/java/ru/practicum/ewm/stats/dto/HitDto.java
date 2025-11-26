@@ -1,12 +1,18 @@
-package ru.practicum.ewm;
+package ru.practicum.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-public class EndpointHitDto {
+@Getter
+@Setter
+@NoArgsConstructor
+public class HitDto {
 
     private Integer id;
     @NotBlank
