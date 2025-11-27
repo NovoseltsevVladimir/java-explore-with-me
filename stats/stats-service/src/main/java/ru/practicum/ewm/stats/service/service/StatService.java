@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface StatService {
 
-    HitDto createHit (HitDto hitDto);
-    List<StatsDto> getStats (LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique);
+    HitDto createHit(HitDto hitDto);
+
+    List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique);
 
 }

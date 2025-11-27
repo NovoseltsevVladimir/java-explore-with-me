@@ -17,7 +17,7 @@ import java.util.List;
 public class StatServiceController {
 
     private StatService service;
-    private final String DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Autowired
     public StatServiceController(StatService service) {
@@ -31,11 +31,11 @@ public class StatServiceController {
     }
 
     @GetMapping("/stats")
-    public List<StatsDto> getStats (@RequestParam @DateTimeFormat(pattern = DATE_FORMAT_PATTERN) LocalDateTime start,
-                                    @RequestParam @DateTimeFormat(pattern = DATE_FORMAT_PATTERN) LocalDateTime end,
-                                    @RequestParam (required = false) List<String> uris,
-                                    @RequestParam (required = false, defaultValue = "false") Boolean unique) {
-        return service.getStats(start,end,uris,unique);
+    public List<StatsDto> getStats(@RequestParam @DateTimeFormat(pattern = DATE_FORMAT_PATTERN) LocalDateTime start,
+                                   @RequestParam @DateTimeFormat(pattern = DATE_FORMAT_PATTERN) LocalDateTime end,
+                                   @RequestParam(required = false) List<String> uris,
+                                   @RequestParam(required = false, defaultValue = "false") Boolean unique) {
+        return service.getStats(start, end, uris, unique);
     }
 
 }
