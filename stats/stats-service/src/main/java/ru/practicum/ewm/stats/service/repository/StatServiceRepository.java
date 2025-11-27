@@ -12,7 +12,8 @@ import java.util.List;
 public interface StatServiceRepository extends JpaRepository<Hit, Integer> {
 
     @Query("""
-            SELECT new ru.practicum.ewm.stats.dto.StatsDto(hit.app, hit.uri, COUNT(DISTINCT hit.ip))
+            SELECT new ru.practicum.ewm.stats.dto.StatsDto(hit.app, hit.uri, 
+            COUNT(DISTINCT hit.ip))
             FROM Hit hit
             WHERE hit.timestamp BETWEEN :start AND :end
             GROUP BY hit.app, hit.uri
@@ -33,7 +34,8 @@ public interface StatServiceRepository extends JpaRepository<Hit, Integer> {
 
 
     @Query("""
-            SELECT new ru.practicum.ewm.stats.dto.StatsDto(hit.app, hit.uri, COUNT(hit.ip))
+            SELECT new ru.practicum.ewm.stats.dto.StatsDto(hit.app, hit.uri,
+            COUNT(DISTINCT hit.ip))
             FROM Hit hit
             WHERE hit.timestamp BETWEEN :start AND :end
             AND hit.uri IN :uris
