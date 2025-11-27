@@ -26,6 +26,7 @@ public class StatServiceController {
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
     public HitDto create(@Valid @RequestBody HitDto hitDto) {
+
         return service.createHit(hitDto);
     }
 

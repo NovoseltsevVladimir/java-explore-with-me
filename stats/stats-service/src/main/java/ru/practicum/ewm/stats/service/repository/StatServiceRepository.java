@@ -16,7 +16,7 @@ public interface StatServiceRepository extends JpaRepository<Hit, Integer> {
             FROM Hit hit
             WHERE hit.timestamp BETWEEN :start AND :end
             GROUP BY hit.app, hit.uri
-            ORDER BY COUNT(DISTINCT hit) DESC
+            ORDER BY COUNT(DISTINCT hit.ip) DESC
             """)
     List<StatsDto> getUniqueStatsByDates(@Param("start") LocalDateTime start,
                                          @Param("end") LocalDateTime end);
@@ -38,7 +38,7 @@ public interface StatServiceRepository extends JpaRepository<Hit, Integer> {
             WHERE hit.timestamp BETWEEN :start AND :end
             AND hit.uri IN :uris
             GROUP BY hit.app, hit.uri
-            ORDER BY COUNT(DISTINCT hit) DESC
+            ORDER BY COUNT(DISTINCT hit.ip) DESC
             """)
     List<StatsDto> getUniqueStatsByDatesAndUris(@Param("start") LocalDateTime start,
                                                 @Param("end") LocalDateTime end,

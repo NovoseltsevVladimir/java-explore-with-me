@@ -1,5 +1,6 @@
 package ru.practicum.ewm.stats.service.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.stats.dto.HitDto;
@@ -11,6 +12,7 @@ import ru.practicum.ewm.stats.service.repository.StatServiceRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class StatServiceImpl implements StatService {
 
@@ -32,6 +34,7 @@ public class StatServiceImpl implements StatService {
     @Override
     public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
 
+        log.info("start"+start+"end"+end+"uris" + uris+"unique"+unique);
         if (uris == null || uris.isEmpty()) {
             if (unique) {
                 return repository.getUniqueStatsByDates(start, end);
