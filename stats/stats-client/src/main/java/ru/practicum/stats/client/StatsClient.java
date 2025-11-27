@@ -18,20 +18,20 @@ public class StatsClient {
     final RestClient restClient;
     final String statUrl;
 
-    public StatsClient(RestClient restClient, @Value("http://localhost:9090")String statUrl) {
+    public StatsClient(RestClient restClient, @Value("http://localhost:9090") String statUrl) {
         this.restClient = restClient;
         this.statUrl = statUrl;
     }
 
-    public void createHit (HitDto hitDto) {
+    public void createHit(HitDto hitDto) {
         restClient.post().uri("/hit")
                 .body(hitDto)
                 .retrieve()
                 .toBodilessEntity();
     }
 
-    public List<StatsDto> stats (LocalDateTime start, LocalDateTime end,
-                                 List<String> uris, Boolean unique) {
+    public List<StatsDto> stats(LocalDateTime start, LocalDateTime end,
+                                List<String> uris, Boolean unique) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         if (start == null || end == null) {
@@ -60,6 +60,7 @@ public class StatsClient {
         return restClient.get()
                 .uri(uriComponentsBuilder.build().toUri())
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<StatsDto>>() {});
+                .body(new ParameterizedTypeReference<List<StatsDto>>() {
+                });
     }
 }
