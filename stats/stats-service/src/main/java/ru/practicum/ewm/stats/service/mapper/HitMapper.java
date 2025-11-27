@@ -1,8 +1,8 @@
-package ru.practicum.service.mapper;
+package ru.practicum.ewm.stats.service.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.practicum.dto.HitDto;
-import ru.practicum.service.model.Hit;
+import ru.practicum.ewm.stats.dto.HitDto;
+import ru.practicum.ewm.stats.service.model.Hit;
 
 import java.time.LocalDateTime;
 

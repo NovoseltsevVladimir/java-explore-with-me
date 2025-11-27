@@ -1,4 +1,4 @@
-package ru.practicum.client.exception;
+package ru.practicum.stats.client.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

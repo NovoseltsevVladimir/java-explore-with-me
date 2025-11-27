@@ -1,18 +1,18 @@
-package ru.practicum.service.service;
+package ru.practicum.ewm.stats.service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.dto.HitDto;
-import ru.practicum.dto.StatsDto;
-import ru.practicum.service.mapper.HitMapper;
-import ru.practicum.service.model.Hit;
-import ru.practicum.service.repository.StatServiceRepository;
+import ru.practicum.ewm.stats.dto.HitDto;
+import ru.practicum.ewm.stats.dto.StatsDto;
+import ru.practicum.ewm.stats.service.mapper.HitMapper;
+import ru.practicum.ewm.stats.service.model.Hit;
+import ru.practicum.ewm.stats.service.repository.StatServiceRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class StatServiceImpl implements StatService{
+public class StatServiceImpl implements StatService {
 
     StatServiceRepository repository;
 
@@ -31,6 +31,19 @@ public class StatServiceImpl implements StatService{
 
     @Override
     public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        return null;
+
+        if (uris == null || uris.isEmpty()) {
+            if (unique) {
+                return repository.getUniqueStatsByDates(start, end);
+            } else {
+                return repository.getNotUniqueStatsByDates(start, end);
+            }
+        } else {
+            if (unique) {
+                return repository.getUniqueStatsByDatesAndUris(start, end, uris);
+            } else {
+                return repository.getNotUniqueStatsByDatesAndUris(start, end, uris);
+            }
+        }
     }
 }

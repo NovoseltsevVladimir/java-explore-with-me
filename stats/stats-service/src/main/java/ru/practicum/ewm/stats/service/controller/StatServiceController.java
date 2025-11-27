@@ -1,13 +1,13 @@
-package ru.practicum.service.controller;
+package ru.practicum.ewm.stats.service.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.HitDto;
-import ru.practicum.dto.StatsDto;
-import ru.practicum.service.service.StatService;
+import ru.practicum.ewm.stats.dto.HitDto;
+import ru.practicum.ewm.stats.dto.StatsDto;
+import ru.practicum.ewm.stats.service.service.StatService;
 
 import java.time.LocalDateTime;
 import java.util.List;

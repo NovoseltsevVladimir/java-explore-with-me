@@ -1,21 +1,19 @@
-package ru.practicum.dto;
+package ru.practicum.ewm.stats.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor
 public class StatsDto {
 
     @NotBlank
     private String app;
     @NotBlank
     private String uri;
-    private Integer hit = 0;
+    private Long hit = 0L;
 
 }

@@ -1,4 +1,4 @@
-package ru.practicum.service.exception;
+package ru.practicum.ewm.stats.service.exception;
 
 import lombok.Getter;
 
