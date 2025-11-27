@@ -33,7 +33,7 @@ public interface StatServiceRepository extends JpaRepository<Hit, Integer> {
 
 
     @Query("""
-            SELECT new ru.practicum.ewm.stats.dto.StatsDto(hit.app, hit.uri, COUNT(hit))
+            SELECT new ru.practicum.ewm.stats.dto.StatsDto(hit.app, hit.uri, COUNT(hit.ip))
             FROM Hit hit
             WHERE hit.timestamp BETWEEN :start AND :end
             AND hit.uri IN :uris
