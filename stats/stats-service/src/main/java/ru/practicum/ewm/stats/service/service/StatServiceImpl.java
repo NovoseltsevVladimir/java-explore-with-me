@@ -34,7 +34,7 @@ public class StatServiceImpl implements StatService {
     @Override
     public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
 
-        log.info("start"+start+"end"+end+"uris" + uris+"unique"+unique);
+        log.info("start" + start + "; end" + end + "; uris" + uris + "; unique" + unique);
         if (uris == null || uris.isEmpty()) {
             if (unique) {
                 return repository.getUniqueStatsByDates(start, end);
