@@ -18,7 +18,7 @@ public class StatsClient {
     final RestClient restClient;
     final String statUrl;
 
-    public StatsClient(RestClient restClient, @Value("http://localhost:9090") String statUrl) {
+    public StatsClient(RestClient restClient, @Value("${stat-service.url}") String statUrl) {
         this.restClient = restClient;
         this.statUrl = statUrl;
     }
