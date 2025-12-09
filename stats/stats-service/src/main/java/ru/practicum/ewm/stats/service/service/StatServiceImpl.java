@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.stats.dto.HitDto;
 import ru.practicum.ewm.stats.dto.StatsDto;
+import ru.practicum.ewm.stats.service.exception.ValidationException;
 import ru.practicum.ewm.stats.service.mapper.HitMapper;
 import ru.practicum.ewm.stats.service.model.Hit;
 import ru.practicum.ewm.stats.service.repository.StatServiceRepository;
@@ -33,6 +34,14 @@ public class StatServiceImpl implements StatService {
 
     @Override
     public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+
+        if (start == null || end == null) {
+            throw new ValidationException("Не заданы даты начала и/или окончания отбора");
+        }
+
+        if (end.isBefore(start)) {
+            throw new ValidationException("Дата окончания должна быть позже даты начала");
+        }
 
         log.info("start" + start + "; end" + end + "; uris" + uris + "; unique" + unique);
         if (uris == null || uris.isEmpty()) {

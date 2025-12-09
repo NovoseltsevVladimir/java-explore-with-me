@@ -23,9 +23,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-          - POSTGRES_DB=statsdb
-          - POSTGRES_USER=statsuser
-          - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=statsdb
+      - POSTGRES_USER=statsuser
+      - POSTGRES_PASSWORD=12345
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -d \"$$POSTGRES_DB\" -U \"$$POSTGRES_USER\""]
       timeout: 5s
@@ -60,9 +60,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-            - POSTGRES_DB=ewmdb
-            - POSTGRES_USER=ewmuser
-            - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=ewmdb
+      - POSTGRES_USER=ewmuser
+      - POSTGRES_PASSWORD=12345
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -d \"$$POSTGRES_DB\" -U \"$$POSTGRES_USER\""]
       timeout: 5s
