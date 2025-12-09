@@ -15,7 +15,7 @@ public class ErrorHandlerStat {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleThrowableException(final Throwable e) {
         return new ErrorResponse(e.getMessage());
     }
