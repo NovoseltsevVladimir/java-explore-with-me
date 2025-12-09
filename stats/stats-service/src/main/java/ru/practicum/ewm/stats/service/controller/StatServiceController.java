@@ -10,6 +10,7 @@ import ru.practicum.ewm.stats.dto.StatsDto;
 import ru.practicum.ewm.stats.service.service.StatService;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,4 @@ public class StatServiceController {
                                    @RequestParam(required = false, defaultValue = "false") Boolean unique) {
         return service.getStats(start, end, uris, unique);
     }
-
 }

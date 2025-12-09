@@ -37,10 +37,12 @@ services:
     container_name: ewm-service
     ports:
       - "8080:8080"
+      - "5005:5005"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5433/ewm
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewmdb
       - SPRING_DATASOURCE_USERNAME=ewmuser
       - SPRING_DATASOURCE_PASSWORD=12345
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator" ]
       interval: 10s

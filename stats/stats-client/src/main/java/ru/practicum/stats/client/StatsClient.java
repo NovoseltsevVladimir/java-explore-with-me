@@ -11,6 +11,7 @@ import ru.practicum.ewm.stats.dto.StatsDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -18,9 +19,11 @@ public class StatsClient {
     final RestClient restClient;
     final String statUrl;
 
-    public StatsClient(RestClient restClient, @Value("${stat-service.url}") String statUrl) {
-        this.restClient = restClient;
+    public StatsClient(@Value("${stat-service.url}") String statUrl) {
         this.statUrl = statUrl;
+        this.restClient = RestClient.builder()
+                .baseUrl(statUrl)
+                .build();
     }
 
     public void createHit(HitDto hitDto) {
@@ -38,12 +41,12 @@ public class StatsClient {
             throw new ValidationException("Не заданы даты начала и/или окончания отбора");
         }
 
-        if (start.isBefore(end)) {
+        if (end.isBefore(start)) {
             throw new ValidationException("Дата окончания должна быть позже даты начала");
         }
 
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
-                .fromPath("/stats")
+                .fromUriString(statUrl + "/stats")
                 .queryParam("start", start.format(formatter))
                 .queryParam("end", end.format(formatter));
 
