@@ -10,7 +10,6 @@ import ru.practicum.ewm.stats.dto.StatsDto;
 import ru.practicum.ewm.stats.service.service.StatService;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
