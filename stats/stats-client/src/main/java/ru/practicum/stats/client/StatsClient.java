@@ -11,7 +11,6 @@ import ru.practicum.ewm.stats.dto.StatsDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 
 @Component
