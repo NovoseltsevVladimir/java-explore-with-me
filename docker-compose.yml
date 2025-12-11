@@ -23,9 +23,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-          - POSTGRES_DB=statsdb
-          - POSTGRES_USER=statsuser
-          - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=statsdb
+      - POSTGRES_USER=statsuser
+      - POSTGRES_PASSWORD=12345
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -d \"$$POSTGRES_DB\" -U \"$$POSTGRES_USER\""]
       timeout: 5s
@@ -37,10 +37,12 @@ services:
     container_name: ewm-service
     ports:
       - "8080:8080"
+      - "5005:5005"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5433/ewm
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewmdb
       - SPRING_DATASOURCE_USERNAME=ewmuser
       - SPRING_DATASOURCE_PASSWORD=12345
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator" ]
       interval: 10s
@@ -58,9 +60,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-            - POSTGRES_DB=ewmdb
-            - POSTGRES_USER=ewmuser
-            - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=ewmdb
+      - POSTGRES_USER=ewmuser
+      - POSTGRES_PASSWORD=12345
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -d \"$$POSTGRES_DB\" -U \"$$POSTGRES_USER\""]
       timeout: 5s
