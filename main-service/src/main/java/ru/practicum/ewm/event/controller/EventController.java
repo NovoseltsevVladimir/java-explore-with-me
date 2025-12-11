@@ -18,6 +18,7 @@ import ru.practicum.stats.client.StatsClient;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.practicum.ewm.MainServiceConstants.APP_NAME;
 import static ru.practicum.ewm.MainServiceConstants.DATA_DTO_PATTERN;
 
 @RestController
@@ -85,13 +86,7 @@ public class EventController {
                 rangeEnd, onlyAvailable, sort, from, size);
 
         //Информацию о том, что по эндпоинту был осуществлен и обработан запрос, нужно сохранить в сервисе статистики
-        HitDto hitDto = new HitDto();
-        hitDto.setApp("/events");
-        hitDto.setIp(request.getRemoteAddr());
-        hitDto.setUri(request.getRequestURI());
-        hitDto.setTimestamp(LocalDateTime.now());
-
-        statsClient.createHit(hitDto);
+        statsClient.createHit(request, APP_NAME);
 
         return events;
     }
@@ -104,13 +99,7 @@ public class EventController {
         EventFullDto eventFullDto = eventService.getEventByIdPublic(id);
 
         //Информацию о том, что по эндпоинту был осуществлен и обработан запрос, нужно сохранить в сервисе статистики
-        HitDto hitDto = new HitDto();
-        hitDto.setApp("/events");
-        hitDto.setIp(request.getRemoteAddr());
-        hitDto.setUri(request.getRequestURI());
-        hitDto.setTimestamp(LocalDateTime.now());
-
-        statsClient.createHit(hitDto);
+        statsClient.createHit(request, APP_NAME);
 
         return eventFullDto;
     }

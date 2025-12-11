@@ -5,12 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.stats.dto.HitDto;
 import ru.practicum.ewm.stats.dto.StatsDto;
+import ru.practicum.ewm.stats.dto.StatsDtoById;
 import ru.practicum.ewm.stats.service.exception.ValidationException;
 import ru.practicum.ewm.stats.service.mapper.HitMapper;
 import ru.practicum.ewm.stats.service.model.Hit;
 import ru.practicum.ewm.stats.service.repository.StatServiceRepository;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -57,5 +62,34 @@ public class StatServiceImpl implements StatService {
                 return repository.getNotUniqueStatsByDatesAndUris(start, end, uris);
             }
         }
+    }
+
+    @Override
+    public StatsDtoById getStatsById(List<Long> ids, String basicAdress) {
+
+        List<String> uris = ids.stream()
+                .map(id -> basicAdress + id)
+                .toList();
+
+        List<StatsDto> statsList = repository.getUniqueStatsByUris(uris);
+
+        Map<String, Long> hitsByUri = statsList.stream()
+                .collect(Collectors.toMap(
+                        StatsDto::getUri,
+                        StatsDto::getHits
+                ));
+
+        HashMap<Long, Long> result = new HashMap<>();
+
+        for (Long id : ids) {
+            String uriKey = basicAdress + id;
+            Long hits = hitsByUri.getOrDefault(uriKey, 0L);
+            result.put(id, hits);
+        }
+
+        StatsDtoById dto = new StatsDtoById();
+        dto.setIdAndViews(result);
+
+        return dto;
     }
 }

@@ -1,10 +1,12 @@
 package ru.practicum.stats.client;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.practicum.ewm.stats.dto.StatsDtoById;
 import ru.practicum.stats.client.exception.ValidationException;
 import ru.practicum.ewm.stats.dto.HitDto;
 import ru.practicum.ewm.stats.dto.StatsDto;
@@ -25,7 +27,15 @@ public class StatsClient {
                 .build();
     }
 
-    public void createHit(HitDto hitDto) {
+    public void createHit(HttpServletRequest request, String appName) {
+
+        //Информацию о том, что по эндпоинту был осуществлен и обработан запрос, нужно сохранить в сервисе статистики
+        HitDto hitDto = new HitDto();
+        hitDto.setApp(appName);
+        hitDto.setIp(request.getRemoteAddr());
+        hitDto.setUri(request.getRequestURI());
+        hitDto.setTimestamp(LocalDateTime.now());
+
         restClient.post().uri("/hit")
                 .body(hitDto)
                 .retrieve()
@@ -64,5 +74,20 @@ public class StatsClient {
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<StatsDto>>() {
                 });
+    }
+
+    public StatsDtoById getStatsById(List<Long> ids, String basicAdress) {
+
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
+                .fromUriString(statUrl + "/statsById")
+                .queryParam("ids", ids)
+                .queryParam("basicAdress", basicAdress);
+
+        return restClient.get()
+                .uri(uriComponentsBuilder.build().toUri())
+                .retrieve()
+                .body(new ParameterizedTypeReference<StatsDtoById>() {
+                });
+
     }
 }

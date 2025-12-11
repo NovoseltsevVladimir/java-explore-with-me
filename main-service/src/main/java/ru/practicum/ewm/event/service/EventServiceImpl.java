@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.model.Category;
-import ru.practicum.ewm.category.repository.CategoryRepository;
 import ru.practicum.ewm.category.service.CategoryService;
 import ru.practicum.ewm.event.mapper.EventMapper;
 import ru.practicum.ewm.event.dto.*;
@@ -22,12 +21,8 @@ import ru.practicum.ewm.event.repository.EventRepository;
 import ru.practicum.ewm.exception.BadRequestException;
 import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.exception.ValidationException;
-import ru.practicum.ewm.location.mapper.LocationMapper;
-import ru.practicum.ewm.location.model.Location;
-import ru.practicum.ewm.location.repository.LocationRepository;
 import ru.practicum.ewm.participation.ParticipationStatus;
 import ru.practicum.ewm.participation.repository.ParticipationRepository;
-import ru.practicum.ewm.stats.dto.StatsDto;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.repository.UserRepository;
 import ru.practicum.ewm.user.service.UserService;
@@ -37,8 +32,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ru.practicum.ewm.MainServiceConstants.END_DEFAULT_DATE;
-import static ru.practicum.ewm.MainServiceConstants.START_DEFAULT_DATE;
 import static ru.practicum.ewm.event.model.QEvent.event;
 import static ru.practicum.ewm.participation.model.QParticipationRequest.participationRequest;
 
@@ -51,9 +44,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
-    private final LocationRepository locationRepository;
     private final ParticipationRepository requestRepository;
     private String logInfo;
     private String appString = "/events/";
@@ -73,14 +64,9 @@ public class EventServiceImpl implements EventService {
         User initiator = userService.getUserByIdWithException(userId);
         Category category = categoryService.getCategoryByIdWithException(newEventDto.getCategory());
 
-        Location location = locationRepository.findByLatAndLon(newEventDto.getLocation().getLat(),
-                        newEventDto.getLocation().getLon())
-                .orElseGet(() -> locationRepository.save(LocationMapper.toLocationEntity(newEventDto.getLocation())));
-
         Event event = EventMapper.mapToEvent(newEventDto);
         event.setInitiator(initiator);
         event.setCategory(category);
-        event.setLocation(location);
         event.setCreatedOn(LocalDateTime.now());
         event.setState(EventState.PENDING);
 
@@ -389,24 +375,17 @@ public class EventServiceImpl implements EventService {
 
     private List<EventShortDto> fillViewsAndRequestsInShortDtoList(List<EventShortDto> dtoList) {
 
-        List<String> uris = dtoList
+        List<Long> uris = dtoList
                 .stream()
-                .map(dto -> appString + dto.getId())
+                .map(dto -> dto.getId())
                 .collect(Collectors.toList());
 
-        List<StatsDto> statsDto = statsClient.stats(START_DEFAULT_DATE, END_DEFAULT_DATE, uris, true);
+        HashMap<Long, Long> idAndViews = statsClient.getStatsById(uris, appString).getIdAndViews();
 
-        for (EventShortDto event : dtoList) {
-            Optional<Long> optionalHits = statsDto
-                    .stream()
-                    .filter(currentStat -> currentStat.getUri().equals("/events/" + event.getId()))
-                    .map(currentStat -> currentStat.getHits())
-                    .findFirst();
-
-            if (optionalHits.isPresent()) {
-                event.setViews(optionalHits.get());
-            }
-        }
+        dtoList = dtoList
+                .stream()
+                .peek(dto -> dto.setViews(idAndViews.get(dto.getId())))
+                .collect(Collectors.toList());
 
         dtoList = dtoList
                 .stream()
@@ -420,24 +399,17 @@ public class EventServiceImpl implements EventService {
 
     private List<EventFullDto> fillViewsAndRequestsInFullDtoList(List<EventFullDto> dtoList) {
 
-        List<String> uris = dtoList
+        List<Long> uris = dtoList
                 .stream()
-                .map(dto -> appString + dto.getId())
+                .map(dto -> dto.getId())
                 .collect(Collectors.toList());
 
-        List<StatsDto> statsDto = statsClient.stats(START_DEFAULT_DATE, END_DEFAULT_DATE, uris, true);
+        HashMap<Long, Long> idAndViews = statsClient.getStatsById(uris, appString).getIdAndViews();
 
-        for (EventFullDto event : dtoList) {
-            Optional<Long> optionalHits = statsDto
-                    .stream()
-                    .filter(currentStat -> currentStat.getUri().equals("/events/" + event.getId()))
-                    .map(currentStat -> currentStat.getHits())
-                    .findFirst();
-
-            if (optionalHits.isPresent()) {
-                event.setViews(optionalHits.get());
-            }
-        }
+        dtoList = dtoList
+                .stream()
+                .peek(dto -> dto.setViews(idAndViews.get(dto.getId())))
+                .collect(Collectors.toList());
 
         dtoList = dtoList
                 .stream()

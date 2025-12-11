@@ -5,7 +5,7 @@ import ru.practicum.ewm.location.model.Location;
 
 public class LocationMapper {
 
-    public static LocationDto toLocationDto(Location location) {
+    public static LocationDto mapToLocationDto(Location location) {
         if (location == null) {
             return null;
         }
@@ -15,7 +15,7 @@ public class LocationMapper {
         return dto;
     }
 
-    public static Location toLocationEntity(LocationDto locationDto) {
+    public static Location mapToLocation(LocationDto locationDto) {
         if (locationDto == null) {
             return null;
         }

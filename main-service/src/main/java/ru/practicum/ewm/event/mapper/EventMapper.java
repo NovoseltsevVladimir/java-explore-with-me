@@ -24,7 +24,7 @@ public class EventMapper {
         dto.setState(event.getState());
         dto.setCategory(CategoryMapper.mapToCategoryDto(event.getCategory()));
         dto.setInitiator(UserMapper.mapToUserShortDto(event.getInitiator()));
-        dto.setLocation(LocationMapper.toLocationDto(event.getLocation()));
+        dto.setLocation(LocationMapper.mapToLocationDto(event.getLocation()));
 
         return dto;
     }
@@ -53,6 +53,7 @@ public class EventMapper {
         event.setPaid(newEventDto.getPaid());
         event.setParticipantLimit(newEventDto.getParticipantLimit());
         event.setRequestModeration(newEventDto.getRequestModeration());
+        event.setLocation(LocationMapper.mapToLocation(newEventDto.getLocation()));
 
         return event;
     }

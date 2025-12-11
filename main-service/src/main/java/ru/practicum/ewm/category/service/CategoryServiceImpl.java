@@ -56,12 +56,6 @@ public class CategoryServiceImpl implements CategoryService {
             return CategoryMapper.mapToCategoryDto(categoryToUpdate);
         }
 
-        if (newCategoryName.length() > 50 || newCategoryName.length() < 1) {
-            logInfo = "Некорректное имя категории " + newCategoryName;
-            log.error(logInfo);
-            throw new BadRequestException(logInfo);
-        }
-
         if (categoryRepository.existsByName(newCategoryName)) {
             logInfo = "Категория с именем " + newCategoryName + " уже существует.";
             log.error(logInfo);

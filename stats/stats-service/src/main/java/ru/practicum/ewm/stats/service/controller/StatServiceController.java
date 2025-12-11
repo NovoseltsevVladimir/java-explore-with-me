@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.stats.dto.HitDto;
 import ru.practicum.ewm.stats.dto.StatsDto;
+import ru.practicum.ewm.stats.dto.StatsDtoById;
 import ru.practicum.ewm.stats.service.service.StatService;
 
 import java.time.LocalDateTime;
@@ -36,5 +37,10 @@ public class StatServiceController {
                                    @RequestParam(required = false) List<String> uris,
                                    @RequestParam(required = false, defaultValue = "false") Boolean unique) {
         return service.getStats(start, end, uris, unique);
+    }
+
+    @GetMapping("/statsById")
+    public StatsDtoById getStatsById(@RequestParam List<Long> ids, @RequestParam String basicAdress) {
+        return service.getStatsById(ids, basicAdress);
     }
 }
