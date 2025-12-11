@@ -10,7 +10,6 @@ import ru.practicum.ewm.category.dto.NewCategoryDto;
 import ru.practicum.ewm.category.mapper.CategoryMapper;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.repository.CategoryRepository;
-import ru.practicum.ewm.exception.BadRequestException;
 import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.exception.ValidationException;
 

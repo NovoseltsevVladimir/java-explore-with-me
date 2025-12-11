@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.practicum.ewm.location.dto.LocationDto;

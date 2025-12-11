@@ -12,7 +12,6 @@ import jakarta.validation.Valid;
 import ru.practicum.ewm.event.dto.*;
 import ru.practicum.ewm.event.enums.EventState;
 import ru.practicum.ewm.event.service.EventService;
-import ru.practicum.ewm.stats.dto.HitDto;
 import ru.practicum.stats.client.StatsClient;
 
 import java.time.LocalDateTime;
