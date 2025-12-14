@@ -58,4 +58,14 @@ public interface StatServiceRepository extends JpaRepository<Hit, Integer> {
                                                    @Param("end") LocalDateTime end,
                                                    @Param("uris") List<String> uris);
 
+    @Query("""
+            SELECT new ru.practicum.ewm.stats.dto.StatsDto(hit.app, hit.uri,
+            COUNT(DISTINCT hit.ip))
+            FROM Hit hit
+            WHERE hit.uri IN :uris
+            GROUP BY hit.app, hit.uri
+            ORDER BY COUNT(DISTINCT hit.ip) DESC
+            """)
+    List<StatsDto> getUniqueStatsByUris(@Param("uris") List<String> uris);
+
 }
