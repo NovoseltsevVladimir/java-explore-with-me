@@ -17,8 +17,7 @@ import ru.practicum.stats.client.StatsClient;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.practicum.ewm.MainServiceConstants.APP_NAME;
-import static ru.practicum.ewm.MainServiceConstants.DATA_DTO_PATTERN;
+import static ru.practicum.ewm.MainServiceConstants.*;
 
 @RestController
 @RequiredArgsConstructor

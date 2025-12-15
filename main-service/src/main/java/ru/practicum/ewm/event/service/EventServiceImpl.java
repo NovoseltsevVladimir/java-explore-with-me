@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.service.CategoryService;
+import ru.practicum.ewm.comment.repository.CommentRepository;
 import ru.practicum.ewm.event.mapper.EventMapper;
 import ru.practicum.ewm.event.dto.*;
 import ru.practicum.ewm.event.enums.AdminStateAction;
@@ -38,7 +39,6 @@ import static ru.practicum.ewm.participation.model.QParticipationRequest.partici
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
@@ -46,6 +46,7 @@ public class EventServiceImpl implements EventService {
     private final UserService userService;
     private final CategoryService categoryService;
     private final ParticipationRepository requestRepository;
+    private final CommentRepository commentRepository;
     private String logInfo;
     private String appString = "/events/";
     private final StatsClient statsClient;
