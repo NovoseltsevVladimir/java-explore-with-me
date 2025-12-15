@@ -1,7 +1,5 @@
 package ru.practicum.ewm.event.service;
 
-import ru.practicum.ewm.event.comments.dto.CommentDto;
-import ru.practicum.ewm.event.comments.dto.NewCommentDto;
 import ru.practicum.ewm.event.dto.*;
 import ru.practicum.ewm.event.enums.EventState;
 
@@ -44,6 +42,4 @@ public interface EventService {
                                            Integer size);
 
     EventFullDto getEventByIdPublic(Long eventId);
-
-    CommentDto createComment(NewCommentDto newComment);
 }

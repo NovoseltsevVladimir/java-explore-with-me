@@ -12,11 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.service.CategoryService;
-import ru.practicum.ewm.event.comments.dto.CommentDto;
-import ru.practicum.ewm.event.comments.dto.NewCommentDto;
-import ru.practicum.ewm.event.comments.mapper.CommentMapper;
-import ru.practicum.ewm.event.comments.model.Comment;
-import ru.practicum.ewm.event.comments.repository.CommentRepository;
+import ru.practicum.ewm.comment.repository.CommentRepository;
 import ru.practicum.ewm.event.mapper.EventMapper;
 import ru.practicum.ewm.event.dto.*;
 import ru.practicum.ewm.event.enums.AdminStateAction;
@@ -27,7 +23,6 @@ import ru.practicum.ewm.exception.BadRequestException;
 import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.exception.ValidationException;
 import ru.practicum.ewm.participation.ParticipationStatus;
-import ru.practicum.ewm.participation.model.ParticipationRequest;
 import ru.practicum.ewm.participation.repository.ParticipationRepository;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.repository.UserRepository;
@@ -425,53 +420,5 @@ public class EventServiceImpl implements EventService {
                 .collect(Collectors.toList());
 
         return dtoList;
-    }
-
-    @Override
-    public CommentDto createComment(NewCommentDto newComment) {
-
-        User user = userRepository.findById(newComment.getAuthorId()).get();
-        if (user == null) {
-            String bugText = "Пользователь не найден, id " + newComment.getAuthorId();
-            log.warn(bugText);
-            throw new NotFoundException(bugText);
-        }
-
-        Event event = eventRepository.findById(newComment.getEventId()).get();
-        if (event == null) {
-            String bugText = "Событие не найдено, id " + newComment.getEventId();
-            log.warn(bugText);
-            throw new NotFoundException(bugText);
-        }
-
-        if (!didUserParticipateEvent(user, event)) {
-            String bugText = "Пользователь не участвовал в мероприятии " +
-                    "либо заявка на участие не была одобрена, id " + newComment.getEventId();
-            log.warn(bugText);
-            throw new ValidationException(bugText);
-        }
-
-        Comment comment = CommentMapper.mapToComment(newComment);
-        comment.setAuthor(user);
-        comment.setEvent(event);
-
-        comment = commentRepository.save(comment);
-
-        return CommentMapper.mapToCommentDto(comment);
-    }
-
-    public boolean didUserParticipateEvent(User user, Event event) {
-
-        Optional<ParticipationRequest> participationRequest
-                = requestRepository.findByRequesterIdAndEventId(user.getId(), event.getId());
-
-        boolean result = true;
-        if (participationRequest.isEmpty()
-                || participationRequest.get().getStatus() != ParticipationStatus.CONFIRMED) {
-            //Значит не было заявки для участия в мероприятии или заявку не подтвердили
-            result = false;
-        }
-
-        return result;
     }
 }

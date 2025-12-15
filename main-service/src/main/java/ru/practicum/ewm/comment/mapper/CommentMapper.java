@@ -1,9 +1,9 @@
-package ru.practicum.ewm.event.comments.mapper;
+package ru.practicum.ewm.comment.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.practicum.ewm.event.comments.dto.CommentDto;
-import ru.practicum.ewm.event.comments.dto.NewCommentDto;
-import ru.practicum.ewm.event.comments.model.Comment;
+import ru.practicum.ewm.comment.dto.CommentDto;
+import ru.practicum.ewm.comment.dto.NewCommentDto;
+import ru.practicum.ewm.comment.model.Comment;
 
 import java.time.LocalDateTime;
 

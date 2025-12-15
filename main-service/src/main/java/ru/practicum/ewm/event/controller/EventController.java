@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import ru.practicum.ewm.event.comments.dto.CommentDto;
-import ru.practicum.ewm.event.comments.dto.NewCommentDto;
 import ru.practicum.ewm.event.dto.*;
 import ru.practicum.ewm.event.enums.EventState;
 import ru.practicum.ewm.event.service.EventService;
@@ -126,19 +124,5 @@ public class EventController {
             @Valid @RequestBody UpdateEventAdminRequest updateRequest) {
 
         return eventService.updateEventByAdmin(eventId, updateRequest);
-    }
-
-    //Comments
-    @PostMapping("/users/{userId}/events/{eventId}/comment")
-    @ResponseStatus(HttpStatus.OK)
-    public CommentDto createComment(@Valid @RequestBody NewCommentDto newComment,
-                                    @PathVariable("userId") Long userId,
-                                    @PathVariable("eventId") Long eventId) {
-
-        newComment.setCreated(LocalDateTime.now());
-        newComment.setEventId(eventId);
-        newComment.setAuthorId(userId);
-
-        return eventService.createComment(newComment);
     }
 }

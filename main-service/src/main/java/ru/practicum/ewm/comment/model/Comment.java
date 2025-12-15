@@ -1,4 +1,4 @@
-package ru.practicum.ewm.event.comments.model;
+package ru.practicum.ewm.comment.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
